@@ -1,20 +1,23 @@
 package com.jodexindustries.loggermod;
 
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientChatEvent;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 
+@Mod.EventBusSubscriber(Dist.CLIENT)
 public class Log {
-    DiscordWebhook webhookLogger = Config.logger;
-    DiscordWebhook webhookDetector = Config.detector;
+    static DiscordWebhook webhookLogger = Config.logger;
+    static DiscordWebhook webhookDetector = Config.detector;
 
     @SubscribeEvent
-    public void ChatEvent(ClientChatEvent e) throws IOException {
+    public static void ChatEvent(ClientChatEvent e) throws IOException {
         String msg = e.getMessage();
         String[] sentences = e.getMessage().split(" ");
 
@@ -31,7 +34,7 @@ public class Log {
                         .addField("PING", String.valueOf(Objects.requireNonNull(Minecraft.getInstance().getCurrentServerData()).pingToServer), true)
 
 
-                        .setThumbnail("https://yt3.ggpht.com/aaaOPBv9Zerpdv5YrsMVUhZalk8GI3qS34UAhOHKr15Mnzd-uMv1v00p7rD3VVm7QXfJ5RhCUGU=s600-c-k-c0x00ffffff-no-rj-rp-mo"));
+                        .setThumbnail("https://cdn.discordapp.com/avatars/597799398507806723/0ab545727be133bb12f4865ea412b4b4.png?size=512"));
 
                 webhookLogger.execute();
             }
@@ -42,7 +45,7 @@ public class Log {
     }
 
     @SubscribeEvent
-    public void detector(ClientChatReceivedEvent e) {
+    public static void detector(ClientChatReceivedEvent e) {
         String msg = e.getMessage().getUnformattedComponentText();
         // String[] sentences = msg.split(" ");
 
